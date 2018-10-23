@@ -3,13 +3,13 @@ section.text:
 	global Start_:
 Start_:
 
-; a funÁ„o foi criada supondo q ao pegar o numero do teclado seja retornado em ax o numero decimal a ser convertido	
+; a fun√ß√£o foi criada supondo que ao pegar o numero do teclado seja retornado em ax o numero decimal a ser convertido	
 
 dec2Float_:
 
 	movw bx,ax
 	movw cx, 0x0100; flag para encontrar o msb
-	testw bx,bx ; comparando para ver se bx È igual a zero
+	testw bx,bx ; comparando para ver se bx √© igual a zero
 	je .L6
 .L5	; loop para encontar o msb
 	mov bx, ax
@@ -25,7 +25,7 @@ dec2Float_:
 	addw  bx, 0x20 ; somando ao bias o expoente
         or ch,bl ; unindo o expoente  e o bit de sinal
 	testw sp,sp
-	jne .L7 ; caso o msb n„o exista ele apenas devolve o ax com o cx
+	jne .L7 ; caso o msb n√£o exista ele apenas devolve o ax com o cx
 	mov cl, 0x00
 	movw ax, cx
 	retw
