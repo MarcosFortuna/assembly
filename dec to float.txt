@@ -1,0 +1,43 @@
+section.text:
+	
+	global Start_:
+Start_:
+
+; a função foi criada supondo q ao pegar o numero do teclado seja retornado em ax o numero decimal a ser convertido	
+
+dec2Float_:
+
+	movw bx,ax
+	movw cx, 0x0100; flag para encontrar o msb
+	testw bx,bx ; comparando para ver se bx é igual a zero
+	je .L6
+.L5	; loop para encontar o msb
+	mov bx, ax
+	shrw cx, 1
+	andw bx, cx
+	testw bx,bx
+	je .L5
+.L6
+	movw cx, ax
+	andw cx, 0x8000; pegando o bit de sinal
+	movw sp,bx 
+	shrw bx, 1
+	addw  bx, 0x20 ; somando ao bias o expoente
+        or ch,bl ; unindo o expoente  e o bit de sinal
+	testw sp,sp
+	jne .L7 ; caso o msb não exista ele apenas devolve o ax com o cx
+	mov cl, 0x00
+	movw ax, cx
+	retw
+	
+.L22	; loop para colocar na parte fracionaria do float
+	shl ax, 1
+	shr sp, 1
+
+.L7 ; condicional do loop se sp for igual a 1
+	cmpw sp, 0x1
+	jne .L22
+	mov ah, ch
+	retw
+			
+section.data:

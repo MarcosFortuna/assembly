@@ -1,0 +1,40 @@
+;ordem do nasm seguindo o x86-64
+; convertendo float para decimal
+section.text:
+	global _start_
+
+_start_:
+	
+	movw bx, sp
+	andw bx, 0x8000; olhando se o primeiro bit do numero tem sinal
+	movw ax, bx
+        xorw bx,sp; restaurando o numero original de bx mas dessa vez sem o sinal
+	or bh,0x00
+	je .L4; se bh igual ax = 0,logo o numero decimal será igual a zero pelo arredondamento
+	movw ax, $0
+	retw
+	
+.L4
+	sub bh, 0x20; calculando o bias
+	mov sp, 0x0001
+	jmp .L6
+
+.L5
+	mov cl, bl ; passando a mantisa para cl
+	and cl, 0X80; verificando se o primeiro bit é 1
+	shr cl, 7; colocando o bit na posição 1 do vetor 
+	add cl,0xfe ; somando o bit a 11111110 para um calculo futuro
+	shrw sp,1
+	orw sp,cx; 
+	shl bl,1
+	sub bh,1
+
+.L6
+	test bh,bh
+	je .L5
+	orw ax,sp; ax contém o bit de sinal caso o bit seja 1 ele será setado com essa operação
+	retw
+        
+
+	
+section.data:  
