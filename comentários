@@ -1,0 +1,13 @@
+Funcionamento dos códigos:
+  Todos os 2 códigos isolam o bit de sinal inicialmente para facilitar a manipulação dos bit com maior facilidade
+   
+   DecToFloat:
+      -após isolar o bit de sinal procura-se o MSB entre os bits 0-7 do número
+      -depois de achado o MSB é calculado o campo expoente somando o MSB com o BIAS
+      - logo em seguida é chegado se o numero é 0 se for ele é retornado com a part frácionária zerada
+       - logo após ele chega se o registrador que contém o MSB é diferente de 1, caso sim ele enntra no loop e coloca os bits do número na parte frac
+        caso não ele devolve o resultado do em rax
+        
+  FloatToDec:
+     -Após isolar o bit de sinal pega-se o a parte do expoente e com ela é usando o comando de deslocar para a esquerda com o valor do expoente
+     - após isso é usado o comando or para colocar o bit de sinal caso exista.
